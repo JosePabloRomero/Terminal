@@ -37,6 +37,7 @@ body {
 
 /* ===== Utilidades ===== */
 .container {
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 16px;
 }
@@ -123,6 +124,10 @@ main {
   padding: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   margin-bottom: 24px;
+}
+
+#contenido {
+  padding-top: 20px;
 }
 
 /* ===== Formularios (básico) ===== */
