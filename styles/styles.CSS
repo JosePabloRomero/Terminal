@@ -5,7 +5,7 @@
   --brand: #2c3e50; /* header/footer */
   --primary: #3498db; /* botones del menú */
   --primary-600: #2b7cb5; /* hover */
-  --accent: #a94eff; /* pestaña activa */
+  --accent: #75a6a9; /* pestaña activa */
   --white: #ffffff;
 }
 
@@ -160,3 +160,55 @@ form button:hover {
   padding: 16px 0;
   font-size: 0.95rem;
 }
+
+/* ===== Empresas ===== */
+.companies {
+  display: block;       /* lista vertical simple */
+}
+
+.company-card {
+  display: flex;
+  gap: 12px;
+  background: var(--white);
+  border: 1px solid #e3e8ef;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.company-img {
+  width: 160px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+  background: #f2f5f8;
+}
+
+.company-body h3 {
+  margin: 0 0 6px 0;
+}
+
+.company-tags {
+  margin: 8px 0;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.85rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #75a6a9;      /* tono claro, básico */
+  border: 1px solid #75a6a9;
+  color: white;
+  margin-right: 6px;
+}
+
+.company-contact {
+  margin: 8px 0 0 0;
+  padding: 0 0 0 16px;      /* sangría simple */
+}
+.company-contact li {
+  margin: 4px 0;
+}
+
