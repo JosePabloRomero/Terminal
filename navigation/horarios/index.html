@@ -40,23 +40,88 @@
       </div>
     </header>
 
-    <main id="contenido" class="container">
-      <section class="section">
-        <h2>Horarios</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam fuga
-          ipsam est voluptatibus laborum incidunt quas sit libero quod maxime ex
-          minus, voluptatum, quam blanditiis voluptate soluta nemo velit. Sit?
-        </p>
-      </section>
-    </main>
+     <main id="contenido" class="container">
+    <section class="section">
+      <h2>Horarios</h2>
+      <p>Consulta de salidas y llegadas. (Datos de ejemplo basados en “Rutas”.)</p>
 
-    <footer class="site-footer">
-      <div class="container">
-        <p>
-          &copy; 2025 Terminal de Transporte. Todos los derechos reservados.
-        </p>
-      </div>
-    </footer>
-  </body>
+      <!-- Filtros simples (sin JS) -->
+      <form class="filters" action="#tablas">
+        <label>
+          Origen
+          <select name="origen">
+            <option value="">Todos</option>
+            <option>Marinilla</option><option>Medellín</option>
+            <option>Manizales</option><option>Cali</option>
+            <option>Barranquilla</option><option>Rionegro</option>
+            <option>Bogotá</option>
+          </select>
+        </label>
+        <label>
+          Destino
+          <select name="destino">
+            <option value="">Todos</option>
+            <option>Medellín</option><option>Marinilla</option>
+            <option>Manizales</option><option>Cali</option>
+            <option>Barranquilla</option><option>Rionegro</option>
+            <option>Bogotá</option>
+          </select>
+        </label>
+        <label>
+          Empresa
+          <select name="empresa">
+            <option value="">Todas</option>
+            <option>Transportico SAS</option>
+            <option>Trans Vanegas</option>
+            <option>El Dorado</option>
+            <option>Servi Rutas Ltda.</option>
+            <option>Trans Volver</option>
+          </select>
+        </label>
+        <button type="submit">Ver</button>
+      </form>
+
+      <div id="tablas"></div>
+
+      <h3>Salidas desde Marinilla</h3>
+      <table class="routes-table">
+        <thead>
+          <tr>
+            <th>Empresa</th><th>Origen</th><th>Destino</th><th>Hora de salida</th><th>Costo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Transportico SAS</td><td>Marinilla</td><td>Medellín</td><td>04:00 am / 05:00 am</td><td>$100.000</td></tr>
+          <tr><td>Trans Vanegas</td><td>Marinilla</td><td>Manizales</td><td>07:00 am / 08:00 am</td><td>$110.000</td></tr>
+          <tr><td>El Dorado</td><td>Marinilla</td><td>Cali</td><td>12:00 pm / 01:00 pm</td><td>$140.000</td></tr>
+          <tr><td>Servi Rutas Ltda.</td><td>Marinilla</td><td>Barranquilla</td><td>07:00 pm</td><td>$200.000</td></tr>
+          <tr><td>Trans Volver</td><td>Marinilla</td><td>Rionegro</td><td>08:00 pm</td><td>$10.000</td></tr>
+          <tr><td>Trans Vanegas</td><td>Marinilla</td><td>Bogotá</td><td>08:30 am</td><td>$100.000</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Llegadas a Marinilla</h3>
+      <table class="routes-table">
+        <thead>
+          <tr>
+            <th>Empresa</th><th>Origen</th><th>Destino</th><th>Hora de salida</th><th>Costo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Transportico SAS</td><td>Rionegro</td><td>Marinilla</td><td>06:00 am / 08:00 am</td><td>$10.000</td></tr>
+          <tr><td>Trans Vanegas</td><td>Cali</td><td>Marinilla</td><td>07:00 am / 08:00 am</td><td>$140.000</td></tr>
+          <tr><td>El Dorado</td><td>Barranquilla</td><td>Marinilla</td><td>12:00 pm / 01:00 pm</td><td>$200.000</td></tr>
+          <tr><td>Servi Rutas Ltda.</td><td>Bogotá</td><td>Marinilla</td><td>07:00 pm</td><td>$120.000</td></tr>
+          <tr><td>Trans Volver</td><td>Manizales</td><td>Marinilla</td><td>08:00 pm</td><td>$80.000</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025 Terminal de Transporte. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+</body>
 </html>

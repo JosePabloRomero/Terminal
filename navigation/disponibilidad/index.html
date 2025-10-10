@@ -45,22 +45,100 @@
     </header>
 
     <main id="contenido" class="container">
-      <section class="section">
-        <h2>Disponibilidad</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam fuga
-          ipsam est voluptatibus laborum incidunt quas sit libero quod maxime ex
-          minus, voluptatum, quam blanditiis voluptate soluta nemo velit. Sit?
-        </p>
-      </section>
-    </main>
+    <section class="section">
+      <h2>Disponibilidad de asientos</h2>
+      <p>Selecciona una ruta y marca los asientos disponibles.</p>
 
-    <footer class="site-footer">
-      <div class="container">
-        <p>
-          &copy; 2025 Terminal de Transporte. Todos los derechos reservados.
-        </p>
+      <!-- Filtros muy simples -->
+      <form class="filters">
+        <label>Empresa
+          <select>
+            <option>Transportico SAS</option>
+            <option>Trans Vanegas</option>
+            <option>El Dorado</option>
+            <option>Servi Rutas Ltda.</option>
+            <option>Trans Volver</option>
+          </select>
+        </label>
+        <label>Origen
+          <select>
+            <option>Marinilla</option><option>Medellín</option><option>Rionegro</option>
+            <option>Cali</option><option>Barranquilla</option><option>Bogotá</option><option>Manizales</option>
+          </select>
+        </label>
+        <label>Destino
+          <select>
+            <option>Medellín</option><option>Marinilla</option><option>Rionegro</option>
+            <option>Cali</option><option>Barranquilla</option><option>Bogotá</option><option>Manizales</option>
+          </select>
+        </label>
+        <label>Fecha
+          <input type="date" />
+        </label>
+        <label>Hora
+          <input type="time" />
+        </label>
+        <button type="submit">Buscar</button>
+      </form>
+
+      <!-- Mapa de asientos con checkboxes ) -->
+      <div class="seat-legend">
+        <span class="chip chip-free">Libre</span>
+        <span class="chip chip-reserved">Reservado</span>
+        <span class="chip chip-taken">Ocupado</span>
+        <span class="chip chip-selected">Tu selección</span>
       </div>
-    </footer>
-  </body>
+
+      <form class="seat-map">
+        <!-- 4 columnas por fila (A–D), 5 filas = 20 asientos de ejemplo -->
+        <div class="seat">
+          <input id="s1" type="checkbox" />
+          <label for="s1">1A</label>
+        </div>
+        <div class="seat">
+          <input id="s2" type="checkbox" />
+          <label for="s2">1B</label>
+        </div>
+        <div class="seat seat--reserved">
+          <input id="s3" type="checkbox" disabled />
+          <label for="s3">1C</label>
+        </div>
+        <div class="seat seat--taken">
+          <input id="s4" type="checkbox" disabled />
+          <label for="s4">1D</label>
+        </div>
+
+        <div class="seat"><input id="s5" type="checkbox" /><label for="s5">2A</label></div>
+        <div class="seat"><input id="s6" type="checkbox" /><label for="s6">2B</label></div>
+        <div class="seat"><input id="s7" type="checkbox" /><label for="s7">2C</label></div>
+        <div class="seat"><input id="s8" type="checkbox" /><label for="s8">2D</label></div>
+
+        <div class="seat"><input id="s9" type="checkbox" /><label for="s9">3A</label></div>
+        <div class="seat seat--taken"><input id="s10" type="checkbox" disabled /><label for="s10">3B</label></div>
+        <div class="seat"><input id="s11" type="checkbox" /><label for="s11">3C</label></div>
+        <div class="seat"><input id="s12" type="checkbox" /><label for="s12">3D</label></div>
+
+        <div class="seat"><input id="s13" type="checkbox" /><label for="s13">4A</label></div>
+        <div class="seat"><input id="s14" type="checkbox" /><label for="s14">4B</label></div>
+        <div class="seat seat--reserved"><input id="s15" type="checkbox" disabled /><label for="s15">4C</label></div>
+        <div class="seat"><input id="s16" type="checkbox" /><label for="s16">4D</label></div>
+
+        <div class="seat"><input id="s17" type="checkbox" /><label for="s17">5A</label></div>
+        <div class="seat"><input id="s18" type="checkbox" /><label for="s18">5B</label></div>
+        <div class="seat"><input id="s19" type="checkbox" /><label for="s19">5C</label></div>
+        <div class="seat"><input id="s20" type="checkbox" /><label for="s20">5D</label></div>
+
+        <div class="seat-actions">
+          <button type="submit">Continuar</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025 Terminal de Transporte. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+</body>
 </html>
