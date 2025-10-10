@@ -66,8 +66,8 @@ body {
 }
 
 .logo {
-  width: 56px;
-  height: 56px;
+  width: 66px;
+  height: 66px;
   border-radius: 8px;
   object-fit: contain;
 }
@@ -217,3 +217,167 @@ form button:hover {
   margin: 4px 0;
 }
 
+/* ===== Rutas ===== */
+.routes-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  margin-bottom: 24px;
+  background-color: var(--white);
+}
+
+.routes-table th,
+.routes-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.routes-table th {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.routes-table tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.routes-table tr:hover {
+  background-color: #eaf4fe;
+}
+
+/* ===== Vehículos ===== */
+.vehicle-section {
+  border: 1px solid #e3e8ef;
+  border-radius: 8px;
+  background: var(--white);
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.vehicle-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 6px 0;
+}
+
+.palette .swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid #cfd6de; /* ayuda a ver el blanco y colores claros */
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+/* Paleta simple (colores básicos) */
+.blue-dark { background: #0d2b5a; }
+.red       { background: #c1121f; }
+.white     { background: #ffffff; }
+.gold      { background: #c7a006; }
+.green     { background: #1a936f; }
+.yellow    { background: #ffd166; }
+.beige     { background: #e8dcc8; }
+
+.vehicle-tags .tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #3e78c9;
+  border: 1px solid #d7e6ff;
+  font-size: 0.85rem;
+  margin-right: 6px;
+}
+
+.gallery {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.gallery img {
+  width: 40%;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 6px;
+  transition: transform 0.25s ease;
+}
+
+.gallery img:hover {
+  transform: scale(2.00); /* zoom simple al pasar el mouse */
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.features .icon {
+  margin-right: 6px;
+}
+
+/* ===== Cotizaciones (búsqueda simple) ===== */
+.quote-search {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  align-items: end;
+  background: var(--white);
+  border: 1px solid #e3e8ef;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.result-card {
+  background: var(--white);
+  border: 1px solid #e3e8ef;
+  border-radius: 8px;
+  padding: 12px;
+  transition: transform 0.15s ease;
+}
+.result-card:hover { transform: translateY(-2px); }
+
+.result-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.result-head h4 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.result-body p { margin: 6px 0; }
+
+.chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #cfd6de;
+  font-size: 0.85rem;
+  background: #f6f8fb;
+}
+
+.note {
+  background: #fff8e1;
+  border: 1px solid #ffe0b2;
+  color: #5d4800;
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin: 10px 0;
+}
