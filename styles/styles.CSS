@@ -381,3 +381,96 @@ form button:hover {
   padding: 8px 10px;
   margin: 10px 0;
 }
+
+/* ===== Disponibilidad en Cotizaciones ===== */
+.result-actions {
+  margin-top: 8px;
+}
+.seat-toggle {
+  padding: 8px 12px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.seat-toggle:hover { background: var(--primary-600); }
+
+.seat-panel {
+  margin-top: 10px;
+  border: 1px solid #e3e8ef;
+  border-radius: 8px;
+  background: var(--white);
+  padding: 12px;
+}
+
+.seat-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.seat-summary .totals span { margin-right: 12px; }
+
+.seat-maps { display: grid; gap: 12px; }
+.seat-deck h5 { margin: 0 0 6px 0; }
+
+/* Grilla y asiento */
+.smap {
+  display: grid;
+  gap: 6px;
+}
+.sseat { position: relative; }
+.sseat input { position: absolute; opacity: 0; pointer-events: none; }
+.sseat label {
+  display: inline-block;
+  width: 48px; height: 40px; line-height: 40px;
+  text-align: center;
+  border-radius: 6px;
+  border: 1px solid #a5d6a7;
+  background: #eaf7e6;       /* VERDE claro: libre */
+  color: #2e7d32;
+  cursor: pointer;
+  user-select: none;
+  transition: transform .12s ease, background .12s ease, color .12s ease, border-color .12s ease;
+}
+.sseat label:hover { transform: scale(1.04); }
+
+/* ROJO: ocupado */
+.sseat.taken label {
+  background: #ffebee;
+  color: #b71c1c;
+  border-color: #ef9a9a;
+  cursor: not-allowed;
+}
+
+/* AZUL: seleccionado */
+.sseat input:checked + label {
+  background: #1e88e5;
+  border-color: #1565c0;
+  color: #fff;
+}
+
+/* Chips/leyenda (reusa estilos) */
+.chip { display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid #cfd6de; font-size:.85rem; background:#f6f8fb; }
+.chip-free { background:#eaf7e6; border-color:#a5d6a7; }
+.chip-selected { background:#e3f2fd; border-color:#bbdefb; }
+.chip-taken { background:#ffebee; border-color:#ef9a9a; }
+
+/* Botón continuar */
+.btn-continue {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+.btn-continue:disabled {
+  background: #c7c7c7;
+  cursor: not-allowed;
+}
+
+.result-body .chip-vehicle { background:#eef5ff; border-color:#cfe6fc; }
