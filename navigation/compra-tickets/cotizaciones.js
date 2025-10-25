@@ -2,6 +2,7 @@
    - Botón "Ver sillas" por resultado
    - Mapas por tipo: TAXI(2x2), AEROVAN(3x4), BUS_1PISO(10x4), BUS_2PISOS(8x4 x 2)
    - Verde: libre | Rojo: ocupada | Azul: seleccionada
+   - "Continuar con la compra" → navega a ../compra-tickets/?... con datos del viaje
 */
 (() => {
   "use strict";
@@ -9,49 +10,38 @@
   /* ========= Datos base (cada ruta con su TIPO) ========= */
   const RUTAS = [
     // Salidas desde Marinilla (Transportico: taxi y aerovan)
-    { empresa: "Transportico SAS", tipo: "TAXI",    origen: "Marinilla", destino: "Medellín",  horario: "04:00 am", costo: 100000 },
-    { empresa: "Transportico SAS", tipo: "AEROVAN", origen: "Marinilla", destino: "Medellín",  horario: "05:00 am", costo: 100000 },
-    { empresa: "Transportico SAS", tipo: "TAXI",    origen: "Marinilla", destino: "Medellín",  horario: "06:00 am", costo: 100000 },
-    { empresa: "Transportico SAS", tipo: "AEROVAN", origen: "Marinilla", destino: "Medellín",  horario: "08:00 am", costo: 100000 },
-    { empresa: "Transportico SAS", tipo: "TAXI",    origen: "Marinilla", destino: "Medellín",  horario: "09:00 am", costo: 100000 },
+    { empresa: "Transportico SAS", tipo: "TAXI", origen: "Marinilla", destino: "Medellín", horario: "04:00 am", costo: 100000 },
+    { empresa: "Transportico SAS", tipo: "AEROVAN", origen: "Marinilla", destino: "Medellín", horario: "05:00 am", costo: 100000 },
+    { empresa: "Transportico SAS", tipo: "TAXI", origen: "Marinilla", destino: "Medellín", horario: "06:00 am", costo: 100000 },
+    { empresa: "Transportico SAS", tipo: "AEROVAN", origen: "Marinilla", destino: "Medellín", horario: "08:00 am", costo: 100000 },
+    { empresa: "Transportico SAS", tipo: "TAXI", origen: "Marinilla", destino: "Medellín", horario: "09:00 am", costo: 100000 },
 
-    // Trans Vanegas / El Dorado: solo buses de dos pisos
-    { empresa: "Trans Vanegas",    tipo: "BUS_2PISOS", origen: "Marinilla", destino: "Manizales", horario: "07:00 am", costo: 110000 },
-    { empresa: "El Dorado",        tipo: "BUS_2PISOS", origen: "Marinilla", destino: "Cali",       horario: "12:00 pm", costo: 140000 },
+    // Trans Vanegas / El Dorado: buses de dos pisos
+    { empresa: "Trans Vanegas", tipo: "BUS_2PISOS", origen: "Marinilla", destino: "Manizales", horario: "07:00 am", costo: 110000 },
+    { empresa: "El Dorado", tipo: "BUS_2PISOS", origen: "Marinilla", destino: "Cali", horario: "12:00 pm", costo: 140000 },
 
     // Servi Rutas: bus de un piso
-    { empresa: "Servi Rutas Ltda.",tipo: "BUS_1PISO",  origen: "Marinilla", destino: "Barranquilla", horario: "07:00 pm", costo: 200000 },
+    { empresa: "Servi Rutas Ltda.", tipo: "BUS_1PISO", origen: "Marinilla", destino: "Barranquilla", horario: "07:00 pm", costo: 200000 },
 
     // Trans Volver: taxi / aerovan
-    { empresa: "Trans Volver",     tipo: "AEROVAN",    origen: "Marinilla", destino: "Rionegro",   horario: "08:00 pm", costo: 10000 },
+    { empresa: "Trans Volver", tipo: "AEROVAN", origen: "Marinilla", destino: "Rionegro", horario: "08:00 pm", costo: 10000 },
 
     // Otra salida
-    { empresa: "Trans Vanegas",    tipo: "BUS_2PISOS", origen: "Marinilla", destino: "Bogotá",     horario: "08:30 am", costo: 100000 },
+    { empresa: "Trans Vanegas", tipo: "BUS_2PISOS", origen: "Marinilla", destino: "Bogotá", horario: "08:30 am", costo: 100000 },
 
     // Llegadas a Marinilla
-    { empresa: "Transportico SAS", tipo: "TAXI",       origen: "Rionegro",  destino: "Marinilla",  horario: "06:00 am", costo: 10000 },
-    { empresa: "Trans Vanegas",    tipo: "BUS_2PISOS", origen: "Cali",      destino: "Marinilla",  horario: "07:00 am", costo: 140000 },
-    { empresa: "El Dorado",        tipo: "BUS_2PISOS", origen: "Barranquilla", destino: "Marinilla", horario: "12:00 pm", costo: 200000 },
-    { empresa: "Servi Rutas Ltda.",tipo: "BUS_1PISO",  origen: "Bogotá",    destino: "Marinilla",  horario: "07:00 pm", costo: 120000 },
-    { empresa: "Trans Volver",     tipo: "AEROVAN",    origen: "Manizales", destino: "Marinilla",  horario: "08:00 pm", costo: 80000 },
+    { empresa: "Transportico SAS", tipo: "TAXI", origen: "Rionegro", destino: "Marinilla", horario: "06:00 am", costo: 10000 },
+    { empresa: "Trans Vanegas", tipo: "BUS_2PISOS", origen: "Cali", destino: "Marinilla", horario: "07:00 am", costo: 140000 },
+    { empresa: "El Dorado", tipo: "BUS_2PISOS", origen: "Barranquilla", destino: "Marinilla", horario: "12:00 pm", costo: 200000 },
+    { empresa: "Servi Rutas Ltda.", tipo: "BUS_1PISO", origen: "Bogotá", destino: "Marinilla", horario: "07:00 pm", costo: 120000 },
+    { empresa: "Trans Volver", tipo: "AEROVAN", origen: "Manizales", destino: "Marinilla", horario: "08:00 pm", costo: 80000 },
   ];
 
   /* ========= Utilidades ========= */
   const money = n => "$" + (Math.round(n) || 0).toLocaleString("es-CO");
-  const tipoLabel = t =>
-    ({ TAXI: "Taxi", AEROVAN: "Aerovan", BUS_1PISO: "Bus (1 piso)", BUS_2PISOS: "Bus (2 pisos)" }[t] || t);
-
-  const formatISOtoDMY = iso => {
-    if (!iso) return "—";
-    const [y, m, d] = iso.split("-");
-    return `${d}/${m}/${y}`;
-  };
-  const todayISO = () => {
-    const d = new Date();
-    const mm = String(d.getMonth() + 1).padStart(2, "0");
-    const dd = String(d.getDate()).padStart(2, "0");
-    return `${d.getFullYear()}-${mm}-${dd}`;
-  };
+  const tipoLabel = t => ({ TAXI: "Taxi", AEROVAN: "Aerovan", BUS_1PISO: "Bus (1 piso)", BUS_2PISOS: "Bus (2 pisos)" }[t] || t);
+  const formatISOtoDMY = iso => { if (!iso) return "—"; const [y, m, d] = iso.split("-"); return `${d}/${m}/${y}`; };
+  const todayISO = () => { const d = new Date(); const mm = String(d.getMonth() + 1).padStart(2, "0"); const dd = String(d.getDate()).padStart(2, "0"); return `${d.getFullYear()}-${mm}-${dd}`; };
   const hash = str => Array.from(str).reduce((a, c) => a + c.charCodeAt(0), 0);
 
   /* ========= DOM ========= */
@@ -66,7 +56,7 @@
   function fillCities() {
     const ciudades = new Set();
     RUTAS.forEach(r => { ciudades.add(r.origen); ciudades.add(r.destino); });
-    [...ciudades].sort((a,b)=>a.localeCompare(b,"es")).forEach(c => {
+    [...ciudades].sort((a, b) => a.localeCompare(b, "es")).forEach(c => {
       $origen.insertAdjacentHTML("beforeend", `<option>${c}</option>`);
       $destino.insertAdjacentHTML("beforeend", `<option>${c}</option>`);
     });
@@ -84,7 +74,7 @@
     deck.appendChild(grid);
 
     const total = rows * cols;
-    const isTaken = n => ((n + seed) % 5) === 0; // ≈20% ocupados, estable por ruta
+    const isTaken = n => ((n + seed) % 5) === 0; // ≈20% ocupados (estable por ruta)
 
     for (let n = 1; n <= total; n++) {
       const seatId = `${routeKey}-s${n}-${deckTitle || 1}`;
@@ -93,9 +83,11 @@
       const input = document.createElement("input");
       input.type = "checkbox";
       input.id = seatId;
+
       const label = document.createElement("label");
       label.htmlFor = seatId;
-      label.textContent = n;
+      const codePrefix = deckTitle ? deckTitle.replace(/\s+/g, "").replace("Piso", "P") + "-" : "";
+      label.textContent = codePrefix + n; // P1-1, P2-1, etc. (o solo 1,2... si no hay piso)
 
       if (isTaken(n)) { wrap.classList.add("taken"); input.disabled = true; }
 
@@ -107,7 +99,7 @@
     parent.appendChild(deck);
   }
 
-  function buildSeatSection(route, container) {
+  function buildSeatSection(route, container, fechaISO) {
     const routeKey = `${route.empresa}-${route.tipo}-${route.origen}-${route.destino}-${route.horario}`.replace(/\s+/g, "_");
     const seed = hash(routeKey) % 17;
 
@@ -115,7 +107,7 @@
     panel.className = "seat-panel";
     panel.hidden = true;
 
-    // Encabezado de resumen
+    // Resumen + acciones
     const summary = document.createElement("div");
     summary.className = "seat-summary";
     summary.innerHTML = `
@@ -138,22 +130,17 @@
 
     // Layout por TIPO
     switch (route.tipo) {
-      case "TAXI":        // 2 x 2 (4 puestos)
-        createSeatGrid({ deckTitle: "", rows: 2, cols: 2, routeKey, seed, parent: maps });
-        break;
-      case "AEROVAN":     // 3 x 4 (12 puestos)
-        createSeatGrid({ deckTitle: "", rows: 4, cols: 3, routeKey, seed, parent: maps });
-        break;
-      case "BUS_1PISO":   // 10 x 4 (40 puestos)
-        createSeatGrid({ deckTitle: "", rows: 10, cols: 4, routeKey, seed, parent: maps });
-        break;
-      case "BUS_2PISOS":  // Dos pisos — 8 x 4 por piso
+      case "TAXI": createSeatGrid({ deckTitle: "", rows: 2, cols: 2, routeKey, seed, parent: maps }); break;
+      case "AEROVAN": createSeatGrid({ deckTitle: "", rows: 4, cols: 3, routeKey, seed, parent: maps }); break;
+      case "BUS_1PISO": createSeatGrid({ deckTitle: "", rows: 10, cols: 4, routeKey, seed, parent: maps }); break;
+      case "BUS_2PISOS":
       default:
         createSeatGrid({ deckTitle: "Piso 1", rows: 8, cols: 4, routeKey, seed: seed + 3, parent: maps });
         createSeatGrid({ deckTitle: "Piso 2", rows: 8, cols: 4, routeKey, seed: seed + 7, parent: maps });
         break;
     }
 
+    // Totales y navegación a compra
     function updateTotals() {
       const boxes = panel.querySelectorAll(".sseat input[type=checkbox]");
       let selected = 0;
@@ -166,12 +153,30 @@
       if (e.target.matches(".sseat input[type=checkbox]")) updateTotals();
     });
 
+    // Ir a "Compra de Tiquetes" con la info del viaje
+    panel.querySelector(".btn-continue").addEventListener("click", () => {
+      const selectedCodes = Array.from(panel.querySelectorAll(".sseat input:checked"))
+        .map(b => b.nextElementSibling.textContent);
+      const params = new URLSearchParams({
+        empresa: route.empresa,
+        tipo: route.tipo,
+        origen: route.origen,
+        destino: route.destino,
+        horario: route.horario,
+        fecha: fechaISO || "",
+        costo: String(route.costo),
+        asientos: selectedCodes.join(",")
+      });
+      // desde /navigation/cotizaciones/ → /navigation/facturacion/
+      window.location.href = `../facturacion/?${params.toString()}`;
+    });
+
     container.appendChild(panel);
     return panel;
   }
 
   /* ========= Render de resultados ========= */
-  function renderResults(items, fechaTexto) {
+  function renderResults(items, fechaTexto, fechaISO) {
     $res.innerHTML = "";
     if (!items.length) {
       $res.innerHTML = `<p class="note">No encontramos rutas para esa combinación. Intenta con otra ciudad.</p>`;
@@ -198,7 +203,7 @@
       `;
       $res.appendChild(card);
 
-      const seatPanel = buildSeatSection(item, card);
+      const seatPanel = buildSeatSection(item, card, fechaISO);
       const toggle = card.querySelector(".seat-toggle");
       toggle.addEventListener("click", () => {
         seatPanel.hidden = !seatPanel.hidden;
@@ -209,6 +214,7 @@
   }
 
   /* ========= Búsqueda ========= */
+  const formatISOtoDMYLocal = iso => formatISOtoDMY(iso); // alias
   function onSearch(e) {
     e.preventDefault();
     $msg.style.display = "none";
@@ -216,23 +222,13 @@
     const origen = $origen.value;
     const destino = $destino.value;
     const fechaISO = $fecha.value;
-    const fechaTexto = formatISOtoDMY(fechaISO);
+    const fechaTexto = formatISOtoDMYLocal(fechaISO);
 
-    if (!fechaISO) {
-      $res.innerHTML = "";
-      $msg.textContent = "Selecciona una fecha válida.";
-      $msg.style.display = "block";
-      return;
-    }
-    if (origen === destino) {
-      $res.innerHTML = "";
-      $msg.textContent = "El origen y el destino no pueden ser iguales. Elige ciudades diferentes.";
-      $msg.style.display = "block";
-      return;
-    }
+    if (!fechaISO) { $res.innerHTML = ""; $msg.textContent = "Selecciona una fecha válida."; $msg.style.display = "block"; return; }
+    if (origen === destino) { $res.innerHTML = ""; $msg.textContent = "El origen y el destino no pueden ser iguales. Elige ciudades diferentes."; $msg.style.display = "block"; return; }
 
     const matches = RUTAS.filter(r => r.origen === origen && r.destino === destino);
-    renderResults(matches, fechaTexto);
+    renderResults(matches, fechaTexto, fechaISO);
   }
 
   /* ========= Init ========= */

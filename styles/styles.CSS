@@ -474,3 +474,23 @@ form button:hover {
 }
 
 .result-body .chip-vehicle { background:#eef5ff; border-color:#cfe6fc; }
+
+/* Compra de Tiquetes */
+.ticket-summary {
+  background: var(--white);
+  border: 1px solid #e3e8ef;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px;
+}
+.purchase-form .grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
