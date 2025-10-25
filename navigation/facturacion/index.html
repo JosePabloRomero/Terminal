@@ -1,117 +1,105 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Compra de Tiquetes</title>
-    <link rel="stylesheet" href="../../styles/styles.css" />
-  </head>
-  <body>
-    <header class="site-header">
-      <div class="container header-bar">
-        <a href="../../index.html" class="brand">
-          <img
-            src="../../images/Logo.png"
-            alt="Logo de la Terminal"
-            class="logo"
-          />
-          <span class="site-title">La Terminal</span>
-        </a>
-        <nav class="site-nav" aria-label="Navegación principal">
-          <ul class="menu">
-            <li><a href="../empresas/">Empresas</a></li>
-            <li><a href="../vehiculos/">Vehículos</a></li>
-            <li><a href="../rutas/">Rutas y Horarios</a></li>
-            <li><a href="../cotizaciones/">Cotizaciones</a></li>
-            <li>
-              <a href="../compra-tickets/" class="is-active" aria-current="page"
-                >Compra de Tiquetes</a
-              >
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Facturación</title>
+  <link rel="stylesheet" href="../../styles/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-bar">
+      <a href="../../index.html" class="brand">
+        <img src="../../images/Logo.png" alt="Logo de la Terminal" class="logo" />
+        <span class="site-title">La Terminal</span>
+      </a>
+      <nav class="site-nav" aria-label="Navegación principal">
+        <ul class="menu">
+          <li><a href="../empresas/">Empresas</a></li>
+          <li><a href="../vehiculos/">Vehículos</a></li>
+          <li><a href="../rutas/">Rutas y Horarios</a></li>
+          <li><a href="../compra-tickets/" class="is-active" aria-current="page">Compra de Tiquetes</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-    <main id="contenido" class="container">
-      <section class="section">
-        <h2>Compra de Tiquetes</h2>
-        <p>
-          Revisa el resumen del viaje y completa tus datos para simular la
-          compra.
-        </p>
+  <main id="contenido" class="container">
+    <section class="section">
+      <h2>Compra de Tiquetes</h2>
+      <p>Revisa el resumen del viaje y completa tus datos.</p>
 
-        <!-- Resumen del viaje -->
-        <div class="ticket-summary">
-          <h3>Resumen del viaje</h3>
-          <div class="summary-grid">
-            <p><strong>Empresa:</strong> <span id="s-empresa">—</span></p>
-            <p><strong>Vehículo:</strong> <span id="s-tipo">—</span></p>
-            <p><strong>Origen:</strong> <span id="s-origen">—</span></p>
-            <p><strong>Destino:</strong> <span id="s-destino">—</span></p>
-            <p><strong>Fecha:</strong> <span id="s-fecha">—</span></p>
-            <p><strong>Hora:</strong> <span id="s-horario">—</span></p>
-            <p><strong>Asientos:</strong> <span id="s-asientos">—</span></p>
-            <p><strong>Total:</strong> <span id="s-total">$0</span></p>
-          </div>
-          <p class="note" id="s-aviso" style="display: none">
-            Sugerencia: para precargar este resumen, elige una ruta en la
-            pestaña <a href="../cotizaciones/">Cotizaciones</a> y presiona
-            <em>“Continuar con la compra”</em>.
-          </p>
+      <!-- Resumen del viaje (se llena con JS) -->
+      <div class="ticket-summary">
+        <div class="ts-card">
+          <h4>Ruta</h4>
+          <p id="ts-ruta">—</p>
         </div>
-
-        <!-- Formulario de compra (simulado) -->
-        <form id="purchase-form" class="purchase-form">
-          <h3>Datos del pasajero</h3>
-          <div class="grid-2">
-            <label
-              >Nombre completo
-              <input id="f-nombre" type="text" required />
-            </label>
-            <label
-              >Documento / ID
-              <input id="f-doc" type="text" required />
-            </label>
-            <label
-              >Correo electrónico
-              <input id="f-email" type="email" required />
-            </label>
-            <label
-              >Teléfono
-              <input id="f-tel" type="tel" required />
-            </label>
-            <label
-              >Método de pago
-              <select id="f-pago" required>
-                <option>Tarjeta de crédito</option>
-                <option>PSE / Transferencia</option>
-                <option>Efectivo en terminal</option>
-              </select>
-            </label>
-            <label>
-              <input id="f-acepto" type="checkbox" required /> Acepto términos y
-              condiciones
-            </label>
-          </div>
-          <button type="submit">Pagar (simulado)</button>
-        </form>
-
-        <div id="ok" class="note" style="display: none; margin-top: 12px">
-          ¡Listo! Compra simulada con éxito. Te enviamos la confirmación al
-          correo proporcionado.
+        <div class="ts-card">
+          <h4>Empresa y vehículo</h4>
+          <p id="ts-empresa">—</p>
+          <p id="ts-tipo">—</p>
         </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="container">
-        <p>
-          &copy; 2025 Terminal de Transporte. Todos los derechos reservados.
-        </p>
+        <div class="ts-card">
+          <h4>Fecha y hora</h4>
+          <p id="ts-fecha">—</p>
+          <p id="ts-hora">—</p>
+        </div>
+        <div class="ts-card">
+          <h4>Sillas</h4>
+          <p id="ts-sillas">—</p>
+        </div>
+        <div class="ts-card">
+          <h4>Precio</h4>
+          <p>Unidad: <strong id="ts-costo">$0</strong></p>
+          <p>Total: <strong id="ts-total">$0</strong></p>
+        </div>
       </div>
-    </footer>
+    </section>
 
-    <script src="../../scripts/compra-tickets.js" defer></script>
-  </body>
+    <section class="section buy-form">
+      <h3>Datos del pasajero</h3>
+      <form id="buy-form" class="grid-2" action="#ok">
+        <label>Nombre completo
+          <input type="text" id="bf-nombre" required />
+        </label>
+        <label>Documento de identidad
+          <input type="text" id="bf-doc" required />
+        </label>
+        <label>Correo electrónico
+          <input type="email" id="bf-email" required />
+        </label>
+        <label>Teléfono
+          <input type="tel" id="bf-tel" required />
+        </label>
+        <label class="span-2">Método de pago
+          <select id="bf-pago" required>
+            <option>Tarjeta débito/crédito</option>
+            <option>PSE</option>
+            <option>Efectivo en taquilla</option>
+          </select>
+        </label>
+        <label class="span-2">
+          <input type="checkbox" id="bf-tyc" required />
+          Acepto términos y condiciones
+        </label>
+
+        <!-- Campos ocultos con la info de la ruta -->
+        <input type="hidden" id="bf-data" />
+
+        <button type="submit" class="span-2">Confirmar compra</button>
+      </form>
+
+      <div id="buy-msg" class="note" style="display:none;"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025 Terminal de Transporte. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="compra-tickets.js" defer></script>
+</body>
 </html>

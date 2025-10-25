@@ -2,34 +2,25 @@
    - Botón "Ver sillas" por resultado
    - Mapas por tipo: TAXI(2x2), AEROVAN(3x4), BUS_1PISO(10x4), BUS_2PISOS(8x4 x 2)
    - Verde: libre | Rojo: ocupada | Azul: seleccionada
-   - "Continuar con la compra" → navega a ../compra-tickets/?... con datos del viaje
+   - "Continuar con la compra" → redirige a Compra de Tiquetes con la selección
 */
 (() => {
   "use strict";
 
   /* ========= Datos base (cada ruta con su TIPO) ========= */
   const RUTAS = [
-    // Salidas desde Marinilla (Transportico: taxi y aerovan)
     { empresa: "Transportico SAS", tipo: "TAXI", origen: "Marinilla", destino: "Medellín", horario: "04:00 am", costo: 100000 },
     { empresa: "Transportico SAS", tipo: "AEROVAN", origen: "Marinilla", destino: "Medellín", horario: "05:00 am", costo: 100000 },
     { empresa: "Transportico SAS", tipo: "TAXI", origen: "Marinilla", destino: "Medellín", horario: "06:00 am", costo: 100000 },
     { empresa: "Transportico SAS", tipo: "AEROVAN", origen: "Marinilla", destino: "Medellín", horario: "08:00 am", costo: 100000 },
     { empresa: "Transportico SAS", tipo: "TAXI", origen: "Marinilla", destino: "Medellín", horario: "09:00 am", costo: 100000 },
 
-    // Trans Vanegas / El Dorado: buses de dos pisos
     { empresa: "Trans Vanegas", tipo: "BUS_2PISOS", origen: "Marinilla", destino: "Manizales", horario: "07:00 am", costo: 110000 },
     { empresa: "El Dorado", tipo: "BUS_2PISOS", origen: "Marinilla", destino: "Cali", horario: "12:00 pm", costo: 140000 },
-
-    // Servi Rutas: bus de un piso
     { empresa: "Servi Rutas Ltda.", tipo: "BUS_1PISO", origen: "Marinilla", destino: "Barranquilla", horario: "07:00 pm", costo: 200000 },
-
-    // Trans Volver: taxi / aerovan
     { empresa: "Trans Volver", tipo: "AEROVAN", origen: "Marinilla", destino: "Rionegro", horario: "08:00 pm", costo: 10000 },
-
-    // Otra salida
     { empresa: "Trans Vanegas", tipo: "BUS_2PISOS", origen: "Marinilla", destino: "Bogotá", horario: "08:30 am", costo: 100000 },
 
-    // Llegadas a Marinilla
     { empresa: "Transportico SAS", tipo: "TAXI", origen: "Rionegro", destino: "Marinilla", horario: "06:00 am", costo: 10000 },
     { empresa: "Trans Vanegas", tipo: "BUS_2PISOS", origen: "Cali", destino: "Marinilla", horario: "07:00 am", costo: 140000 },
     { empresa: "El Dorado", tipo: "BUS_2PISOS", origen: "Barranquilla", destino: "Marinilla", horario: "12:00 pm", costo: 200000 },
@@ -39,7 +30,8 @@
 
   /* ========= Utilidades ========= */
   const money = n => "$" + (Math.round(n) || 0).toLocaleString("es-CO");
-  const tipoLabel = t => ({ TAXI: "Taxi", AEROVAN: "Aerovan", BUS_1PISO: "Bus (1 piso)", BUS_2PISOS: "Bus (2 pisos)" }[t] || t);
+  const tipoLabel = t =>
+    ({ TAXI: "Taxi", AEROVAN: "Aerovan", BUS_1PISO: "Bus (1 piso)", BUS_2PISOS: "Bus (2 pisos)" }[t] || t);
   const formatISOtoDMY = iso => { if (!iso) return "—"; const [y, m, d] = iso.split("-"); return `${d}/${m}/${y}`; };
   const todayISO = () => { const d = new Date(); const mm = String(d.getMonth() + 1).padStart(2, "0"); const dd = String(d.getDate()).padStart(2, "0"); return `${d.getFullYear()}-${mm}-${dd}`; };
   const hash = str => Array.from(str).reduce((a, c) => a + c.charCodeAt(0), 0);
@@ -52,7 +44,6 @@
   const $res = document.getElementById("resultados");
   const $msg = document.getElementById("msg");
 
-  /* ========= Cargar ciudades ========= */
   function fillCities() {
     const ciudades = new Set();
     RUTAS.forEach(r => { ciudades.add(r.origen); ciudades.add(r.destino); });
@@ -74,28 +65,16 @@
     deck.appendChild(grid);
 
     const total = rows * cols;
-    const isTaken = n => ((n + seed) % 5) === 0; // ≈20% ocupados (estable por ruta)
+    const isTaken = n => ((n + seed) % 5) === 0; // ~20% ocupados
 
     for (let n = 1; n <= total; n++) {
       const seatId = `${routeKey}-s${n}-${deckTitle || 1}`;
-      const wrap = document.createElement("div");
-      wrap.className = "sseat";
-      const input = document.createElement("input");
-      input.type = "checkbox";
-      input.id = seatId;
-
-      const label = document.createElement("label");
-      label.htmlFor = seatId;
-      const codePrefix = deckTitle ? deckTitle.replace(/\s+/g, "").replace("Piso", "P") + "-" : "";
-      label.textContent = codePrefix + n; // P1-1, P2-1, etc. (o solo 1,2... si no hay piso)
-
+      const wrap = document.createElement("div"); wrap.className = "sseat";
+      const input = document.createElement("input"); input.type = "checkbox"; input.id = seatId;
+      const label = document.createElement("label"); label.htmlFor = seatId; label.textContent = n;
       if (isTaken(n)) { wrap.classList.add("taken"); input.disabled = true; }
-
-      grid.appendChild(wrap);
-      wrap.appendChild(input);
-      wrap.appendChild(label);
+      grid.appendChild(wrap); wrap.appendChild(input); wrap.appendChild(label);
     }
-
     parent.appendChild(deck);
   }
 
@@ -104,10 +83,8 @@
     const seed = hash(routeKey) % 17;
 
     const panel = document.createElement("div");
-    panel.className = "seat-panel";
-    panel.hidden = true;
+    panel.className = "seat-panel"; panel.hidden = true;
 
-    // Resumen + acciones
     const summary = document.createElement("div");
     summary.className = "seat-summary";
     summary.innerHTML = `
@@ -125,10 +102,9 @@
     panel.appendChild(summary);
 
     const maps = document.createElement("div");
-    maps.className = "seat-maps";
-    panel.appendChild(maps);
+    maps.className = "seat-maps"; panel.appendChild(maps);
 
-    // Layout por TIPO
+    // Layout por tipo
     switch (route.tipo) {
       case "TAXI": createSeatGrid({ deckTitle: "", rows: 2, cols: 2, routeKey, seed, parent: maps }); break;
       case "AEROVAN": createSeatGrid({ deckTitle: "", rows: 4, cols: 3, routeKey, seed, parent: maps }); break;
@@ -140,11 +116,10 @@
         break;
     }
 
-    // Totales y navegación a compra
+    // Totales
     function updateTotals() {
       const boxes = panel.querySelectorAll(".sseat input[type=checkbox]");
-      let selected = 0;
-      boxes.forEach(b => { if (b.checked) selected++; });
+      let selected = 0; boxes.forEach(b => { if (b.checked) selected++; });
       panel.querySelector(".count-selected").textContent = selected;
       panel.querySelector(".sum-total").textContent = money(selected * route.costo);
       panel.querySelector(".btn-continue").disabled = selected === 0;
@@ -153,36 +128,45 @@
       if (e.target.matches(".sseat input[type=checkbox]")) updateTotals();
     });
 
-    // Ir a "Compra de Tiquetes" con la info del viaje
-    panel.querySelector(".btn-continue").addEventListener("click", () => {
-      const selectedCodes = Array.from(panel.querySelectorAll(".sseat input:checked"))
-        .map(b => b.nextElementSibling.textContent);
-      const params = new URLSearchParams({
+    // Continuar → redirigir con datos
+    const btn = summary.querySelector(".btn-continue");
+    btn.addEventListener("click", () => {
+      const seats = [];
+      panel.querySelectorAll(".sseat input:checked").forEach(cb => {
+        const lbl = cb.nextElementSibling;
+        const deck = cb.closest(".seat-deck")?.querySelector("h5")?.textContent?.trim();
+        const seatName = deck ? `${deck} ${lbl.textContent}` : lbl.textContent;
+        seats.push(seatName);
+      });
+      if (!seats.length) return;
+
+      const url = new URL("../facturacion/index.html", window.location.href);
+      url.search = new URLSearchParams({
         empresa: route.empresa,
         tipo: route.tipo,
         origen: route.origen,
         destino: route.destino,
         horario: route.horario,
         fecha: fechaISO || "",
+        sillas: seats.join(","),
         costo: String(route.costo),
-        asientos: selectedCodes.join(",")
-      });
-      // desde /navigation/cotizaciones/ → /navigation/facturacion/
-      window.location.href = `../facturacion/?${params.toString()}`;
+        total: String(route.costo * seats.length)
+      }).toString();
+      window.location.href = url.toString();
     });
 
     container.appendChild(panel);
     return panel;
   }
 
-  /* ========= Render de resultados ========= */
-  function renderResults(items, fechaTexto, fechaISO) {
+  /* ========= Render ========= */
+  function renderResults(items, fechaISO) {
+    const fechaTexto = formatISOtoDMY(fechaISO);
     $res.innerHTML = "";
     if (!items.length) {
       $res.innerHTML = `<p class="note">No encontramos rutas para esa combinación. Intenta con otra ciudad.</p>`;
       return;
     }
-
     items.forEach(item => {
       const card = document.createElement("article");
       card.className = "result-card";
@@ -199,8 +183,7 @@
         </div>
         <div class="result-actions">
           <button class="seat-toggle" aria-expanded="false">Ver sillas</button>
-        </div>
-      `;
+        </div>`;
       $res.appendChild(card);
 
       const seatPanel = buildSeatSection(item, card, fechaISO);
@@ -214,24 +197,16 @@
   }
 
   /* ========= Búsqueda ========= */
-  const formatISOtoDMYLocal = iso => formatISOtoDMY(iso); // alias
   function onSearch(e) {
     e.preventDefault();
     $msg.style.display = "none";
-
-    const origen = $origen.value;
-    const destino = $destino.value;
-    const fechaISO = $fecha.value;
-    const fechaTexto = formatISOtoDMYLocal(fechaISO);
-
+    const origen = $origen.value, destino = $destino.value, fechaISO = $fecha.value;
     if (!fechaISO) { $res.innerHTML = ""; $msg.textContent = "Selecciona una fecha válida."; $msg.style.display = "block"; return; }
-    if (origen === destino) { $res.innerHTML = ""; $msg.textContent = "El origen y el destino no pueden ser iguales. Elige ciudades diferentes."; $msg.style.display = "block"; return; }
-
+    if (origen === destino) { $res.innerHTML = ""; $msg.textContent = "El origen y el destino no pueden ser iguales."; $msg.style.display = "block"; return; }
     const matches = RUTAS.filter(r => r.origen === origen && r.destino === destino);
-    renderResults(matches, fechaTexto, fechaISO);
+    renderResults(matches, fechaISO);
   }
 
-  /* ========= Init ========= */
   fillCities();
   if ($fecha) $fecha.min = todayISO();
   $form.addEventListener("submit", onSearch);
